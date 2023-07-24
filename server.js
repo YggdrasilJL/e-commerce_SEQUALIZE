@@ -17,6 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 // sync sequelize models to the database force true to recreate tables on every sync, then turn on the server
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync().then(() => {
   app.listen(PORT, () => console.log(`listening at ${PORT}`));
 });

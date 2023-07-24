@@ -3,7 +3,10 @@ create database ecommerce_db;
 
 use ecommerce_db;
 
-drop table if exists Category, Product, Tag, ProductTag;
+drop table if exists Category;
+drop table if exists Product;
+drop table if exists ProductTag;
+drop table if exists Tag;
 
 create table Category (
     id int not null auto_increment primary key,
@@ -31,4 +34,3 @@ create table ProductTag (
     tag_id int,
     foreign key (tag_id) references Tag(id)
 );
-
