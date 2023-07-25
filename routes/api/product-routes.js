@@ -13,8 +13,7 @@ router.get('/', async (req, res) => {
 
     res.json(products);
   } catch (err) {
-    console.error(err)
-    res.status(500).json(err);
+    res.status(500).json({ message: 'Cannot find products.', error: err })
   }
 });
 
@@ -28,8 +27,7 @@ router.get('/:id', async (req, res) => {
     res.json(product);
 
   } catch (err) {
-    console.error(err)
-    res.status(500).json(err);
+    res.status(500).json({ message: 'Cannot find product.', error: err })
   }
 });
 // made the following routes async for readability
@@ -48,8 +46,7 @@ router.post('/', async (req, res) => {
 
     res.status(200).json(product);
   } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
+    res.status(500).json({ message: 'Cannot create product.', error: err })
   }
 });
 
@@ -83,8 +80,7 @@ router.put('/:id', async (req, res) => {
     const product = await Product.findOne({ where: { id: req.params.id } });
     res.json(product);
   } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
+    res.status(500).json({ message: 'Cannot update product.', error: err })
   }
 });
 
@@ -173,7 +169,7 @@ router.delete('/:id', async (req, res) => {
     await product.destroy(req.body);
     res.json({ message: 'Product deleted.' });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: 'Cannot delete product.', error: err })
   }
 });
 
