@@ -8,12 +8,22 @@ router.get('/', async (req, res) => {
   // find all products
   try {
     const products = await Product.findAll({
-      include: [Category, Tag]
+    // had to do the array of objects instead of just include: "[Category, ProductTag, Tag]" because it gave an error
+      include: [
+        {
+          model: Category,
+        },
+        {
+          model: Tag,
+          through: ProductTag,
+        }
+      ],
     });
 
     res.json(products);
   } catch (err) {
     res.status(500).json({ message: 'Cannot find products.', error: err })
+    console.log(err)
   }
 });
 
@@ -22,7 +32,7 @@ router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   try {
     const product = await Product.findByPk(req.params.id, {
-      include: [Category, Tag]
+      include: [Category, Tag],
     });
     res.json(product);
 
@@ -49,6 +59,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: 'Cannot create product.', error: err })
   }
 });
+
 
 router.put('/:id', async (req, res) => {
   try {
@@ -162,9 +173,9 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const product = await Category.findByPk(req.params.id)
+    const product = await Product.findByPk(req.params.id)
     if (!product) {
-      return res.status(404).json({ message: 'Oops! Category not found.' });
+      return res.status(404).json({ message: 'Oops! Product not found.' });
     }
     await product.destroy(req.body);
     res.json({ message: 'Product deleted.' });
