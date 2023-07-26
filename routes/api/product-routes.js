@@ -1,14 +1,14 @@
-const router = require('express').Router();
-const { Product, Category, Tag, ProductTag } = require('../../models');
+const router = require("express").Router();
+const { Product, Category, Tag, ProductTag } = require("../../models");
 
 // The `/api/products` endpoint
 
 // get all products
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   // find all products
   try {
     const products = await Product.findAll({
-    // had to do the array of objects instead of just include: "[Category, ProductTag, Tag]" because it gave an error
+      // had to do the array of objects instead of just include: "[Category, ProductTag, Tag]" because it gave an error
       include: [
         {
           model: Category,
@@ -16,19 +16,19 @@ router.get('/', async (req, res) => {
         {
           model: Tag,
           through: ProductTag,
-        }
+        },
       ],
     });
 
     res.json(products);
   } catch (err) {
-    res.status(500).json({ message: 'Cannot find products.', error: err })
-    console.log(err)
+    res.status(500).json({ message: "Cannot find products.", error: err });
+    console.log(err);
   }
 });
 
 // get one product
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   // find a single product by its `id`
   try {
     const product = await Product.findByPk(req.params.id, {
@@ -43,14 +43,13 @@ router.get('/:id', async (req, res) => {
       ],
     });
     res.json(product);
-
   } catch (err) {
-    res.status(500).json({ message: 'Cannot find product.', error: err })
+    res.status(500).json({ message: "Cannot find product.", error: err });
   }
 });
 // made the following routes async for readability
 // create new product
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const product = await Product.create(req.body);
 
@@ -64,12 +63,11 @@ router.post('/', async (req, res) => {
 
     res.status(200).json(product);
   } catch (err) {
-    res.status(500).json({ message: 'Cannot create product.', error: err })
+    res.status(500).json({ message: "Cannot create product.", error: err });
   }
 });
 
-
-router.put('/:id', async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     await Product.update(req.body, {
       where: {
@@ -83,12 +81,16 @@ router.put('/:id', async (req, res) => {
       });
 
       const productTagIds = productTags.map(({ tag_id }) => tag_id);
-      const newProductTags = req.body.tagIds.filter((tag_id) => !productTagIds.includes(tag_id)).map((tag_id) => ({
-        product_id: req.params.id,
-        tag_id,
-      }));
+      const newProductTags = req.body.tagIds
+        .filter((tag_id) => !productTagIds.includes(tag_id))
+        .map((tag_id) => ({
+          product_id: req.params.id,
+          tag_id,
+        }));
 
-      const productTagsToRemove = productTags.filter(({ tag_id }) => !req.body.tagIds.includes(tag_id)).map(({ id }) => id);
+      const productTagsToRemove = productTags
+        .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
+        .map(({ id }) => id);
 
       await Promise.all([
         ProductTag.destroy({ where: { id: productTagsToRemove } }),
@@ -99,7 +101,7 @@ router.put('/:id', async (req, res) => {
     const product = await Product.findOne({ where: { id: req.params.id } });
     res.json(product);
   } catch (err) {
-    res.status(500).json({ message: 'Cannot update product.', error: err })
+    res.status(500).json({ message: "Cannot update product.", error: err });
   }
 });
 
@@ -179,16 +181,16 @@ router.put('/:id', async (req, res) => {
 //     });
 // });
 
-router.delete('/:id', async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
-    const product = await Product.findByPk(req.params.id)
+    const product = await Product.findByPk(req.params.id);
     if (!product) {
-      return res.status(404).json({ message: 'Oops! Product not found.' });
+      return res.status(404).json({ message: "Oops! Product not found." });
     }
     await product.destroy(req.body);
-    res.json({ message: 'Product deleted.' });
+    res.json({ message: "Product deleted." });
   } catch (err) {
-    res.status(500).json({ message: 'Cannot delete product.', error: err })
+    res.status(500).json({ message: "Cannot delete product.", error: err });
   }
 });
 

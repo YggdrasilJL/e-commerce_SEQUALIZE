@@ -1,7 +1,9 @@
-require('dotenv').config()
-const express = require('express');
-const routes = require('./routes');
-const sequelize = require('./config/connection')
+require("dotenv").config();
+const express = require("express");
+const routes = require("./routes");
+const sequelize = require("./config/connection");
+const chalk = require("chalk");
+const cyan = chalk.cyan;
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -11,8 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(routes);
 
-
-console.log(`
+console.log(
+  cyan(`
   ███████╗     ██████╗ ██████╗ ███╗   ███╗    ██████╗  █████╗ ████████╗ █████╗ ██████╗  █████╗ ███████╗███████╗
   ██╔════╝    ██╔════╝██╔═══██╗████╗ ████║    ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝
   █████╗█████╗██║     ██║   ██║██╔████╔██║    ██║  ██║███████║   ██║   ███████║██████╔╝███████║███████╗█████╗  
@@ -20,10 +22,10 @@ console.log(`
   ███████╗    ╚██████╗╚██████╔╝██║ ╚═╝ ██║    ██████╔╝██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║███████║███████╗
   ╚══════╝     ╚═════╝ ╚═════╝ ╚═╝     ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 
-`);
-
+`)
+);
 
 // sync sequelize models to the database force true to recreate tables on every sync, then turn on the server
 sequelize.sync().then(() => {
-  app.listen(PORT, () => console.log(`listening at ${PORT}`));
+  app.listen(PORT, () => console.log(cyan(`listening at ${PORT}`)));
 });
