@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const routes = require("./routes");
 const sequelize = require("./config/connection");
+// coloring terminal package
 const chalk = require("chalk");
 const cyan = chalk.cyan;
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(routes);
 
+// cool terminal graphic when initalizing server
 console.log(
   cyan(`
   ███████╗     ██████╗ ██████╗ ███╗   ███╗    ██████╗  █████╗ ████████╗ █████╗ ██████╗  █████╗ ███████╗███████╗

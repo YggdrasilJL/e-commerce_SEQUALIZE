@@ -15,7 +15,6 @@ router.get("/", async (req, res) => {
     res.status(500).json(err);
   }
 
-  // console.log(req.params, req.body, res.body)
 });
 
 router.get("/:id", async (req, res) => {
@@ -31,6 +30,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// create category
 router.post("/", async (req, res) => {
   try {
     const category = await Category.create(req.body);

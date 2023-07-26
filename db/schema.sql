@@ -1,3 +1,5 @@
+-- what the schema would look like if we did it in normal mysql workbench
+
 drop database if exists ecommerce_db;
 create database ecommerce_db;
 
