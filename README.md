@@ -28,7 +28,7 @@ To run the application locally, follow these steps:
 
 Once you have completed the installation, follow these steps to start the application:
 
-1. Use the `schema.sql` file in the `db` folder to create the database using MySQL shell commands.
+1. Go into MySQL Shell and create the database.
 2. Run `npm run seed` to seed the database with test data.
 3. Run `npm start` to start the application's server.
 
@@ -49,4 +49,4 @@ To see the functionality of the e-commerce back end and to verify that all accep
 
 This project was made by [Jacob Lowther](https://github.com/YggdrasilJL/).
 
-``````
+---
